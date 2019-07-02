@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="robot_model" default="clhero_v2_hw"/>
+
+  <!-- Load the URDF into the ROS Parameter Server -->
+  <param name="robot_description"
+         command="$(find xacro)/xacro --inorder '$(find clegs_description)/robots/$(arg robot_model).xacro'" />
+
+<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" ></node>
+
+<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+      respawn="false" output="screen">
+  <!--remap from="/joint_states" to="/clhero/joint_states" /-->
+</node>
+
+  <!-- Launch CLHeRo HW --> 
+  <node name="hw_control_interface" pkg="clhero_hw_control" type="clhero_hw_control_interface" output="screen"/>
+
+   <!--node name="rviz" pkg="rviz" type="rviz" /-->
+
+</launch>
